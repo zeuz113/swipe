@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Penalty</title>
+
+<meta name="viewport" content="initial-scale=0.5, user-scalable=0" />
+<meta name="viewport" content="initial-scale=0.5; maximum-scale=0.5; user-scalable=0;" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+
+
+    <!--- The following scripts are necessary to do TweenLite tweens on CSS properties -->
+<script type="text/javascript" src="js/greensock/plugins/CSSPlugin.min.js"></script>
+<script type="text/javascript" src="js/greensock/TweenLite.min.js"></script>
+
+<!--- Be sure to load EasePack if you want to use a specific ease -->
+<script type="text/javascript" src="js/greensock/easing/EasePack.min.js"></script>
+
+
+<!-- TweenMax includes TweenLite, TimelineLite, TimelineMax, EasePack,  RoundPropsPlugin and CSSPlugin -->
+<script type="text/javascript" src="js/greensock/TweenMax.min.js"></script>
+
+
+<script src="js/easeljs-0.6.0.min.js"></script>
+<script src="js/tweenjs-0.4.0.min.js"></script>
+<script src="js/movieclip-0.6.0.min.js"></script>
+<script src="js/preloadjs-0.3.0.min.js"></script>
+<script src="js/basePenalty.js"></script>
+
+
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.touchSwipe.js"></script>
+<script type="text/javascript" src="js/touch.js"></script>
+<script type="text/javascript" src="js/orientation.js"></script>
+
+
+<style type="text/css">
+    canvas {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        outline: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+		position: absolute;
+		
+		
+		
+    }   
+	
+	html{
+		overflow:hidden
+		}
+	body{
+		overflow:hidden;
+		margin: 0px;
+		}	
+		
+	#console{
+		background:rgba(255,255,255,0.7);
+		width:100%;
+		height:180px;
+		font-family:Arial, Helvetica, sans-serif;
+		color:#333;
+		position:absolute;
+		z-index:1000;
+		font-size:12px;
+		
+		
+		
+		}
+		
+		#giro3{
+			color:#F00;
+			
+			
+			}	
+			#kick{
+				color:#000;
+				font-size:14px;
+				font-weight:bold;
+				
+				
+				}
+				
+			#myDiv{
+				background:#FF0;
+				width:200px;
+				height:200px;
+				position:absolute;
+				display:none;
+				
+				
+				}	
+			
+	
+</style>
+
+
+<script>
+
+var canvas, stage, exportRoot;
+
+ 
+
+	var datoHorizontal=null
+	var datovertical=null
+	var datoHorizontal2=null
+	var datovertical2=null
+	var respuesta=''
+	var difHorizontal;
+	var difVertical;
+	var ladoStage='centro'
+	var ladoStageAnterior;
+	var currentFinger
+	var grados
+	var initialAngle=false
+	var distance1
+	var duration1
+	var gradosDiferencia,gradosInicia,gradosFinal,columnaArco,filaArco,shootStrong,gradosAdicionales,shootType
+	
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	
+	var manifest = [
+		{src:"images/app_penalti.jpg", id:"app_penalti"},
+		{src:"images/arco.png", id:"arco"},
+		{src:"images/Arquero_00000.png", id:"Arquero_00000"},
+		{src:"images/Arquero_00002.png", id:"Arquero_00002"},
+		{src:"images/Arquero_00003.png", id:"Arquero_00003"},
+		{src:"images/Arquero_00005.png", id:"Arquero_00005"},
+		{src:"images/Arquero_00006.png", id:"Arquero_00006"},
+		{src:"images/Arquero_00008.png", id:"Arquero_00008"},
+		{src:"images/Arquero_00009.png", id:"Arquero_00009"},
+		{src:"images/Arquero_00011.png", id:"Arquero_00011"},
+		{src:"images/Arquero_00012.png", id:"Arquero_00012"},
+		{src:"images/Arquero_00014.png", id:"Arquero_00014"},
+		{src:"images/Arquero_00015.png", id:"Arquero_00015"},
+		{src:"images/Arquero_00017.png", id:"Arquero_00017"},
+		{src:"images/Arquero_00018.png", id:"Arquero_00018"},
+		{src:"images/Arquero_00020.png", id:"Arquero_00020"},
+		{src:"images/Arquero_00021.png", id:"Arquero_00021"},
+		{src:"images/Arquero_00023.png", id:"Arquero_00023"},
+		{src:"images/Arquero_00024.png", id:"Arquero_00024"},
+		{src:"images/Arquero_00026.png", id:"Arquero_00026"},
+		{src:"images/Arquero_00027.png", id:"Arquero_00027"},
+		{src:"images/Arquero_00029.png", id:"Arquero_00029"},
+		{src:"images/Arquero_00030.png", id:"Arquero_00030"},
+		{src:"images/Arquero_00032.png", id:"Arquero_00032"},
+		{src:"images/Arquero_00033.png", id:"Arquero_00033"},
+		{src:"images/Arquero_00035.png", id:"Arquero_00035"},
+		{src:"images/Arquero_00036.png", id:"Arquero_00036"},
+		{src:"images/Arquero_00038.png", id:"Arquero_00038"},
+		{src:"images/Arquero_00039.png", id:"Arquero_00039"},
+		{src:"images/Arquero_00041.png", id:"Arquero_00041"},
+		{src:"images/Arquero_00042.png", id:"Arquero_00042"},
+		{src:"images/Arquero_00044.png", id:"Arquero_00044"},
+		{src:"images/Arquero_00045.png", id:"Arquero_00045"},
+		{src:"images/Arquero_00047.png", id:"Arquero_00047"},
+		{src:"images/Arquero_00048.png", id:"Arquero_00048"},
+		{src:"images/Arquero_00051.png", id:"Arquero_00051"},
+		{src:"images/Arquero_00053.png", id:"Arquero_00053"},
+		{src:"images/Arquero_00054.png", id:"Arquero_00054"},
+		{src:"images/Arquero_00056.png", id:"Arquero_00056"},
+		{src:"images/Arquero_00057.png", id:"Arquero_00057"},
+		{src:"images/Arquero_00059.png", id:"Arquero_00059"},
+		{src:"images/Arquero_00060.png", id:"Arquero_00060"},
+		{src:"images/Arquero_00062.png", id:"Arquero_00062"},
+		{src:"images/Arquero_00063.png", id:"Arquero_00063"},
+		{src:"images/Arquero_00065.png", id:"Arquero_00065"},
+		{src:"images/Arquero_00066.png", id:"Arquero_00066"},
+		{src:"images/Arquero_00068.png", id:"Arquero_00068"},
+		{src:"images/Arquero_00069.png", id:"Arquero_00069"},
+		{src:"images/Arquero_00071.png", id:"Arquero_00071"},
+		{src:"images/Arquero_00072.png", id:"Arquero_00072"},
+		{src:"images/Arquero_00074.png", id:"Arquero_00074"},
+		{src:"images/Arquero_00075.png", id:"Arquero_00075"},
+		{src:"images/Arquero_00077.png", id:"Arquero_00077"},
+		{src:"images/Arquero_00078.png", id:"Arquero_00078"},
+		{src:"images/Arquero_00080.png", id:"Arquero_00080"},
+		{src:"images/Arquero_00081.png", id:"Arquero_00081"},
+		{src:"images/Arquero_00083.png", id:"Arquero_00083"},
+		{src:"images/Arquero_00084.png", id:"Arquero_00084"},
+		{src:"images/Arquero_00086.png", id:"Arquero_00086"},
+		{src:"images/Arquero_00087.png", id:"Arquero_00087"},
+		{src:"images/Arquero_00089.png", id:"Arquero_00089"},
+		{src:"images/Arquero_00090.png", id:"Arquero_00090"},
+		{src:"images/Arquero_00092.png", id:"Arquero_00092"},
+		{src:"images/Arquero_00093.png", id:"Arquero_00093"},
+		{src:"images/Arquero_00095.png", id:"Arquero_00095"},
+		{src:"images/Arquero_00096.png", id:"Arquero_00096"},
+		{src:"images/Arquero_00098.png", id:"Arquero_00098"},
+		{src:"images/Arquero_00099.png", id:"Arquero_00099"},
+		{src:"images/Arquero_00101.png", id:"Arquero_00101"},
+		{src:"images/Arquero_00102.png", id:"Arquero_00102"},
+		{src:"images/Arquero_00104.png", id:"Arquero_00104"},
+		{src:"images/Arquero_00105.png", id:"Arquero_00105"},
+		{src:"images/Arquero_00107.png", id:"Arquero_00107"},
+		{src:"images/Arquero_00108.png", id:"Arquero_00108"},
+		{src:"images/Arquero_00110.png", id:"Arquero_00110"},
+		{src:"images/Arquero_00111.png", id:"Arquero_00111"},
+		{src:"images/Arquero_00113.png", id:"Arquero_00113"},
+		{src:"images/Arquero_00114.png", id:"Arquero_00114"},
+		{src:"images/Arquero_00116.png", id:"Arquero_00116"},
+		{src:"images/Arquero_00117.png", id:"Arquero_00117"},
+		{src:"images/Arquero_00119.png", id:"Arquero_00119"},
+		{src:"images/Arquero_00120.png", id:"Arquero_00120"},
+		{src:"images/Arquero_00122.png", id:"Arquero_00122"},
+		{src:"images/Arquero_00123.png", id:"Arquero_00123"},
+		{src:"images/Arquero_00125.png", id:"Arquero_00125"},
+		{src:"images/Arquero_00126.png", id:"Arquero_00126"},
+		{src:"images/Arquero_00128.png", id:"Arquero_00128"},
+		{src:"images/Arquero_00129.png", id:"Arquero_00129"},
+		{src:"images/Arquero_00131.png", id:"Arquero_00131"},
+		{src:"images/Arquero_00132.png", id:"Arquero_00132"},
+		{src:"images/Arquero_00134.png", id:"Arquero_00134"},
+		{src:"images/Arquero_00135.png", id:"Arquero_00135"},
+		{src:"images/Arquero_00137.png", id:"Arquero_00137"},
+		{src:"images/Arquero_00138.png", id:"Arquero_00138"},
+		{src:"images/Arquero_00140.png", id:"Arquero_00140"},
+		{src:"images/Arquero_00141.png", id:"Arquero_00141"},
+		{src:"images/Arquero_00143.png", id:"Arquero_00143"},
+		{src:"images/Arquero_00144.png", id:"Arquero_00144"},
+		{src:"images/Arquero_00146.png", id:"Arquero_00146"},
+		{src:"images/Arquero_00147.png", id:"Arquero_00147"},
+		{src:"images/Arquero_00149.png", id:"Arquero_00149"},
+		{src:"images/Arquero_00150.png", id:"Arquero_00150"},
+		{src:"images/Arquero_00152.png", id:"Arquero_00152"},
+		{src:"images/Arquero_00153.png", id:"Arquero_00153"},
+		{src:"images/Arquero_00155.png", id:"Arquero_00155"},
+		{src:"images/Arquero_00156.png", id:"Arquero_00156"},
+		{src:"images/Arquero_00158.png", id:"Arquero_00158"},
+		{src:"images/Arquero_00159.png", id:"Arquero_00159"},
+		{src:"images/Arquero_00165.png", id:"Arquero_00165"},
+		{src:"images/Arquero_00167.png", id:"Arquero_00167"},
+		{src:"images/Arquero_00168.png", id:"Arquero_00168"},
+		{src:"images/Arquero_00170.png", id:"Arquero_00170"},
+		{src:"images/Arquero_00171.png", id:"Arquero_00171"},
+		{src:"images/Arquero_00173.png", id:"Arquero_00173"},
+		{src:"images/Arquero_00174.png", id:"Arquero_00174"},
+		{src:"images/Arquero_00176.png", id:"Arquero_00176"},
+		{src:"images/Arquero_00177.png", id:"Arquero_00177"},
+		{src:"images/Arquero_00179.png", id:"Arquero_00179"},
+		{src:"images/Arquero_00180.png", id:"Arquero_00180"},
+		{src:"images/Arquero_00182.png", id:"Arquero_00182"},
+		{src:"images/Arquero_00183.png", id:"Arquero_00183"},
+		{src:"images/Arquero_00185.png", id:"Arquero_00185"},
+		{src:"images/Arquero_00186.png", id:"Arquero_00186"},
+		{src:"images/Arquero_00188.png", id:"Arquero_00188"},
+		{src:"images/Arquero_00189.png", id:"Arquero_00189"},
+		{src:"images/Arquero_00191.png", id:"Arquero_00191"},
+		{src:"images/Arquero_00192.png", id:"Arquero_00192"},
+		{src:"images/Arquero_00194.png", id:"Arquero_00194"},
+		{src:"images/Arquero_00195.png", id:"Arquero_00195"},
+		{src:"images/Arquero_00197.png", id:"Arquero_00197"},
+		{src:"images/Arquero_00198.png", id:"Arquero_00198"},
+		{src:"images/Arquero_00200.png", id:"Arquero_00200"},
+		{src:"images/Arquero_00201.png", id:"Arquero_00201"},
+		{src:"images/Arquero_00203.png", id:"Arquero_00203"},
+		{src:"images/Arquero_00204.png", id:"Arquero_00204"},
+		{src:"images/Arquero_00206.png", id:"Arquero_00206"},
+		{src:"images/Arquero_00207.png", id:"Arquero_00207"},
+		{src:"images/Arquero_00209.png", id:"Arquero_00209"},
+		{src:"images/Arquero_00210.png", id:"Arquero_00210"},
+		{src:"images/Arquero_00212.png", id:"Arquero_00212"},
+		{src:"images/Arquero_00213.png", id:"Arquero_00213"},
+		{src:"images/Arquero_00215.png", id:"Arquero_00215"},
+		{src:"images/Arquero_00216.png", id:"Arquero_00216"},
+		{src:"images/Arquero_00218.png", id:"Arquero_00218"},
+		{src:"images/Arquero_00219.png", id:"Arquero_00219"},
+		{src:"images/Arquero_00221.png", id:"Arquero_00221"},
+		{src:"images/Arquero_00222.png", id:"Arquero_00222"},
+		{src:"images/Arquero_00224.png", id:"Arquero_00224"},
+		{src:"images/Arquero_00225.png", id:"Arquero_00225"},
+		{src:"images/Arquero_00227.png", id:"Arquero_00227"},
+		{src:"images/Arquero_00228.png", id:"Arquero_00228"},
+		{src:"images/Arquero_00230.png", id:"Arquero_00230"},
+		{src:"images/Arquero_00231.png", id:"Arquero_00231"},
+		{src:"images/Arquero_00233.png", id:"Arquero_00233"},
+		{src:"images/Arquero_00234.png", id:"Arquero_00234"},
+		{src:"images/Arquero_00236.png", id:"Arquero_00236"},
+		{src:"images/Arquero_00237.png", id:"Arquero_00237"},
+		{src:"images/Arquero_00239.png", id:"Arquero_00239"},
+		{src:"images/Arquero_00240.png", id:"Arquero_00240"},
+		{src:"images/Arquero_00242.png", id:"Arquero_00242"},
+		{src:"images/Arquero_00243.png", id:"Arquero_00243"},
+		{src:"images/Arquero_00245.png", id:"Arquero_00245"},
+		{src:"images/Arquero_00246.png", id:"Arquero_00246"},
+		{src:"images/Arquero_00248.png", id:"Arquero_00248"},
+		{src:"images/Arquero_00249.png", id:"Arquero_00249"},
+		{src:"images/Arquero_00251.png", id:"Arquero_00251"},
+		{src:"images/Arquero_00252.png", id:"Arquero_00252"},
+		{src:"images/Arquero_00254.png", id:"Arquero_00254"},
+		{src:"images/Arquero_00255.png", id:"Arquero_00255"},
+		{src:"images/Arquero_00257.png", id:"Arquero_00257"},
+		{src:"images/Arquero_00258.png", id:"Arquero_00258"},
+		{src:"images/Arquero_00260.png", id:"Arquero_00260"},
+		{src:"images/Arquero_00261.png", id:"Arquero_00261"},
+		{src:"images/Arquero_00263.png", id:"Arquero_00263"},
+		{src:"images/Arquero_00264.png", id:"Arquero_00264"},
+		{src:"images/Arquero_00266.png", id:"Arquero_00266"},
+		{src:"images/Arquero_00267.png", id:"Arquero_00267"},
+		{src:"images/Arquero_00269.png", id:"Arquero_00269"},
+		{src:"images/Arquero_00270.png", id:"Arquero_00270"},
+		{src:"images/Arquero_00272.png", id:"Arquero_00272"},
+		{src:"images/Arquero_00273.png", id:"Arquero_00273"},
+		{src:"images/Arquero_00275.png", id:"Arquero_00275"},
+		{src:"images/Arquero_00276.png", id:"Arquero_00276"},
+		{src:"images/Arquero_00278.png", id:"Arquero_00278"},
+		{src:"images/Arquero_00279.png", id:"Arquero_00279"},
+		{src:"images/Arquero_00281.png", id:"Arquero_00281"},
+		{src:"images/Arquero_00282.png", id:"Arquero_00282"},
+		{src:"images/Arquero_00284.png", id:"Arquero_00284"},
+		{src:"images/Arquero_00285.png", id:"Arquero_00285"},
+		{src:"images/Arquero_00287.png", id:"Arquero_00287"},
+		{src:"images/Arquero_00288.png", id:"Arquero_00288"},
+		{src:"images/Arquero_00290.png", id:"Arquero_00290"},
+		{src:"images/Arquero_00291.png", id:"Arquero_00291"},
+		{src:"images/Arquero_00293.png", id:"Arquero_00293"},
+		{src:"images/Arquero_00294.png", id:"Arquero_00294"},
+		{src:"images/Arquero_00296.png", id:"Arquero_00296"},
+		{src:"images/Arquero_00321.png", id:"Arquero_00321"},
+		{src:"images/Arquero_00323.png", id:"Arquero_00323"},
+		{src:"images/Arquero_00324.png", id:"Arquero_00324"},
+		{src:"images/Arquero_00326.png", id:"Arquero_00326"},
+		{src:"images/Arquero_00327.png", id:"Arquero_00327"},
+		{src:"images/Arquero_00329.png", id:"Arquero_00329"},
+		{src:"images/Arquero_00330.png", id:"Arquero_00330"},
+		{src:"images/Arquero_00332.png", id:"Arquero_00332"},
+		{src:"images/Arquero_00333.png", id:"Arquero_00333"},
+		{src:"images/Arquero_00335.png", id:"Arquero_00335"},
+		{src:"images/Arquero_00336.png", id:"Arquero_00336"},
+		{src:"images/Arquero_00338.png", id:"Arquero_00338"},
+		{src:"images/Arquero_00339.png", id:"Arquero_00339"},
+		{src:"images/Arquero_00341.png", id:"Arquero_00341"},
+		{src:"images/Arquero_00342.png", id:"Arquero_00342"},
+		{src:"images/Arquero_00344.png", id:"Arquero_00344"},
+		{src:"images/Arquero_00345.png", id:"Arquero_00345"},
+		{src:"images/Arquero_00347.png", id:"Arquero_00347"},
+		{src:"images/Arquero_00348.png", id:"Arquero_00348"},
+		{src:"images/Arquero_00350.png", id:"Arquero_00350"},
+		{src:"images/Arquero_00351.png", id:"Arquero_00351"},
+		{src:"images/Arquero_00353.png", id:"Arquero_00353"},
+		{src:"images/Arquero_00354.png", id:"Arquero_00354"},
+		{src:"images/Arquero_00356.png", id:"Arquero_00356"},
+		{src:"images/Arquero_00357.png", id:"Arquero_00357"},
+		{src:"images/Arquero_00359.png", id:"Arquero_00359"},
+		{src:"images/Arquero_00360.png", id:"Arquero_00360"},
+		{src:"images/Arquero_00362.png", id:"Arquero_00362"},
+		{src:"images/Arquero_00363.png", id:"Arquero_00363"},
+		{src:"images/Arquero_00365.png", id:"Arquero_00365"},
+		{src:"images/Arquero_00366.png", id:"Arquero_00366"},
+		{src:"images/Arquero_00368.png", id:"Arquero_00368"},
+		{src:"images/Arquero_00369.png", id:"Arquero_00369"},
+		{src:"images/Arquero_00371.png", id:"Arquero_00371"},
+		{src:"images/Arquero_00372.png", id:"Arquero_00372"},
+		{src:"images/Arquero_00374.png", id:"Arquero_00374"},
+		{src:"images/Arquero_00375.png", id:"Arquero_00375"},
+		{src:"images/Arquero_00377.png", id:"Arquero_00377"},
+		{src:"images/Arquero_00378.png", id:"Arquero_00378"},
+		{src:"images/Arquero_00380.png", id:"Arquero_00380"},
+		{src:"images/Arquero_00381.png", id:"Arquero_00381"},
+		{src:"images/Arquero_00383.png", id:"Arquero_00383"},
+		{src:"images/Arquero_00390.png", id:"Arquero_00390"},
+		{src:"images/Arquero_00392.png", id:"Arquero_00392"},
+		{src:"images/Arquero_00393.png", id:"Arquero_00393"},
+		{src:"images/Arquero_00395.png", id:"Arquero_00395"},
+		{src:"images/Arquero_00396.png", id:"Arquero_00396"},
+		{src:"images/Arquero_00398.png", id:"Arquero_00398"},
+		{src:"images/Arquero_00399.png", id:"Arquero_00399"},
+		{src:"images/Arquero_00401.png", id:"Arquero_00401"},
+		{src:"images/Arquero_00402.png", id:"Arquero_00402"},
+		{src:"images/Arquero_00404.png", id:"Arquero_00404"},
+		{src:"images/Arquero_00405.png", id:"Arquero_00405"},
+		{src:"images/Arquero_00407.png", id:"Arquero_00407"},
+		{src:"images/Arquero_00408.png", id:"Arquero_00408"},
+		{src:"images/Arquero_00410.png", id:"Arquero_00410"},
+		{src:"images/Arquero_00411.png", id:"Arquero_00411"},
+		{src:"images/Arquero_00413.png", id:"Arquero_00413"},
+		{src:"images/Arquero_00414.png", id:"Arquero_00414"},
+		{src:"images/Arquero_00416.png", id:"Arquero_00416"},
+		{src:"images/Arquero_00417.png", id:"Arquero_00417"},
+		{src:"images/Arquero_00419.png", id:"Arquero_00419"},
+		{src:"images/Arquero_00420.png", id:"Arquero_00420"},
+		{src:"images/Arquero_00422.png", id:"Arquero_00422"},
+		{src:"images/Arquero_00423.png", id:"Arquero_00423"},
+		{src:"images/Arquero_00425.png", id:"Arquero_00425"},
+		{src:"images/Arquero_00426.png", id:"Arquero_00426"},
+		{src:"images/Arquero_00428.png", id:"Arquero_00428"},
+		{src:"images/Arquero_00429.png", id:"Arquero_00429"},
+		{src:"images/Arquero_00431.png", id:"Arquero_00431"},
+		{src:"images/Arquero_00432.png", id:"Arquero_00432"},
+		{src:"images/Arquero_00434.png", id:"Arquero_00434"},
+		{src:"images/Arquero_00435.png", id:"Arquero_00435"},
+		{src:"images/Arquero_00437.png", id:"Arquero_00437"},
+		{src:"images/Arquero_00438.png", id:"Arquero_00438"},
+		{src:"images/Arquero_00440.png", id:"Arquero_00440"},
+		{src:"images/Arquero_00441.png", id:"Arquero_00441"},
+		{src:"images/Arquero_00443.png", id:"Arquero_00443"},
+		{src:"images/Arquero_00444.png", id:"Arquero_00444"},
+		{src:"images/Arquero_00446.png", id:"Arquero_00446"},
+		{src:"images/Arquero_00447.png", id:"Arquero_00447"},
+		{src:"images/Arquero_00449.png", id:"Arquero_00449"},
+		{src:"images/Arquero_00450.png", id:"Arquero_00450"},
+		{src:"images/Arquero_00452.png", id:"Arquero_00452"},
+		{src:"images/Arquero_00453.png", id:"Arquero_00453"},
+		{src:"images/Arquero_00455.png", id:"Arquero_00455"},
+		{src:"images/Arquero_00456.png", id:"Arquero_00456"},
+		{src:"images/Arquero_00458.png", id:"Arquero_00458"},
+		{src:"images/Arquero_00459.png", id:"Arquero_00459"},
+		{src:"images/Arquero_00461.png", id:"Arquero_00461"},
+		{src:"images/Arquero_00462.png", id:"Arquero_00462"},
+		{src:"images/Arquero_00464.png", id:"Arquero_00464"},
+		{src:"images/Arquero_00465.png", id:"Arquero_00465"},
+		{src:"images/Arquero_00467.png", id:"Arquero_00467"},
+		{src:"images/Arquero_00468.png", id:"Arquero_00468"},
+		{src:"images/Arquero_00470.png", id:"Arquero_00470"},
+		{src:"images/Arquero_00471.png", id:"Arquero_00471"},
+		{src:"images/Arquero_00473.png", id:"Arquero_00473"},
+		{src:"images/Arquero_00474.png", id:"Arquero_00474"},
+		{src:"images/Arquero_00476.png", id:"Arquero_00476"},
+		{src:"images/bandera_colombia1.png", id:"bandera_colombia1"},
+		{src:"images/bandera_colombia2.png", id:"bandera_colombia2"},
+		{src:"images/bandera_colombia3.png", id:"bandera_colombia3"},
+		{src:"images/bandera_colombia4.png", id:"bandera_colombia4"},
+		{src:"images/baseBg4.jpg", id:"baseBg4"},
+		{src:"images/Bitmap1.png", id:"Bitmap1"},
+		{src:"images/Bitmap2.png", id:"Bitmap2"},
+		{src:"images/Bitmap3.png", id:"Bitmap3"},
+		{src:"images/Bitmap4.png", id:"Bitmap4"},
+		{src:"images/bola0000.png", id:"bola0000"},
+		{src:"images/bola0002.png", id:"bola0002"},
+		{src:"images/bola0003.png", id:"bola0003"},
+		{src:"images/bola0005.png", id:"bola0005"},
+		{src:"images/bola0006.png", id:"bola0006"},
+		{src:"images/bola0008.png", id:"bola0008"},
+		{src:"images/bola0009.png", id:"bola0009"},
+		{src:"images/bola0011.png", id:"bola0011"},
+		{src:"images/bola0012.png", id:"bola0012"},
+		{src:"images/bola0014.png", id:"bola0014"},
+		{src:"images/bola0015.png", id:"bola0015"},
+		{src:"images/bola0017.png", id:"bola0017"},
+		{src:"images/bola0018.png", id:"bola0018"},
+		{src:"images/bola0020.png", id:"bola0020"},
+		{src:"images/FlashAICBAssets.png", id:"FlashAICBAssets"},
+		{src:"images/baseBg4.jpg", id:"Mapadebits1"}
+	];
+
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(manifest);
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete() {
+	exportRoot = new lib.basePenalty();
+	
+
+	stage = new createjs.Stage(canvas);
+	
+	stage.addChild(exportRoot);
+	
+	stage.scaleX=0.5
+	stage.scaleY=0.5
+	//
+	//loadImage()
+
+	
+//var circle = new createjs.Shape();
+//circle.graphics.beginFill("red").drawCircle(0, 0, 50);
+//circle.x = 100;
+//circle.y = 100;
+//stage.addChild(circle);
+
+
+	 
+	 
+	initGame()
+stopBalls()
+	createjs.Ticker.setFPS(60);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+
+
+
+
+function initGame(){
+	resetElements()
+	
+	stage.update();
+
+	}
+	
+	function resetElements(){
+		
+	//exportRoot.exportRoot.exportRoot.balls.ball_1.stop()
+//	exportRoot.ball_9.stop()
+//	exportRoot.ball_01.stop()
+//	exportRoot.ball_09.stop()
+//	
+//	exportRoot.ball_1.alpha=1
+//	exportRoot.ball_9.alpha=0
+//	exportRoot.ball_01.alpha=0
+//	exportRoot.ball_09.alpha=0
+//	setTestButtons()
+		
+		}
+		
+		
+	function setTestButtons(){
+	//	exportRoot.ball_1.onClick=kick1;
+		
+		
+		}	
+		
+		
+	function kick1(){
+		//exportRoot.ball_1.interna.play()
+//		exportRoot.ball_1.play()
+//		exportRoot.ball_1.alpha=1
+		}
+		
+//	function kick2(){
+//		exportRoot.ball_9.interna.play()
+//		exportRoot.ball_9.play()
+//		exportRoot.ball_9.alpha=1
+//		}
+//		
+//	function kick3(){
+//		exportRoot.ball_01.interna.play()
+//		exportRoot.ball_01.play()
+//		exportRoot.ball_01.alpha=1
+//		}	
+//		
+//	function kick4(){
+//		exportRoot.ball_09.interna.play()
+//		exportRoot.ball_09.play()
+//		exportRoot.ball_09.alpha=1
+//		}		
+//		
+//		
+//	function resetGame(){
+//		exportRoot.ball_1.interna.gotoAndStop(0)
+//		exportRoot.ball_1.gotoAndStop(0)
+//		exportRoot.ball_1.alpha=1
+//		
+//		
+//		}			
+/*		var image = new createjs.Bitmap("images/bola0002.png");
+	function loadImage(){	
+ 
+ stage.addChild(image);
+ createjs.Ticker.addEventListener("tick", handleTick);
+ function handleTick(event) {
+     image.x += 1;
+     stage.update();
+	 
+ }
+ 
+ image.onClick=hola
+ function hola(){
+	 
+	 alert('hola')
+	 image.alpha=0
+	 }
+ 
+ }*/
+		
+		
+	//var image = new createjs.Bitmap("images/rectas.png");
+//	function loadImage(){	
+// 
+// stage.addChild(image);
+// image.x=185
+// image.y=100;
+// stage.update();
+//
+//
+// }
+
+	
+	
+	
+function kickEnd(){
+	console.log('animation End')
+	exportRoot.balls.ball_78A.alpha=1
+	exportRoot.balls.ball_78A.gotoAndStop(0)
+	//exportRoot.balls.ball_78A.stop()
+	
+	//TweenMax.to(exportRoot.balls, 5, {bezier:[{left:100, top:250}, {left:300, top:0}, {left:500, top:400}], ease:Power1.easeInOut});
+	
+	//TweenMax.to(document.getElementById("myDiv"), 5, {bezier:[{left:100, top:250}, {left:300, top:0}, {left:500, top:400}], ease:Power1.easeInOut});
+	
+
+	}
+	
+	
+	
+	
+	//////
+	
+	function stopBalls(){
+		
+
+//	exportRoot.balls.ball_1A.alpha=0
+//	exportRoot.balls.ball_2A.alpha=0
+//	exportRoot.balls.ball_3A.alpha=0
+//	exportRoot.balls.ball_4A.alpha=0
+//	exportRoot.balls.ball_5A.alpha=0
+	exportRoot.balls.ball_6A.alpha=0
+    
+	exportRoot.balls.ball_7A.alpha=0
+	exportRoot.balls.ball_8A.alpha=0
+	exportRoot.balls.ball_9A.alpha=0
+	exportRoot.balls.ball_10A.alpha=0
+	exportRoot.balls.ball_11A.alpha=0
+	exportRoot.balls.ball_12A.alpha=0
+	exportRoot.balls.ball_13A.alpha=0
+    
+//	exportRoot.balls.ball_14A.alpha=0
+//	exportRoot.balls.ball_15A.alpha=0
+//	exportRoot.balls.ball_16A.alpha=0
+//	exportRoot.balls.ball_17A.alpha=0
+//	exportRoot.balls.ball_18A.alpha=0
+//	exportRoot.balls.ball_19A.alpha=0
+    
+    
+	exportRoot.balls.ball_20A.alpha=0
+    exportRoot.balls.ball_21A.alpha=0
+	exportRoot.balls.ball_22A.alpha=0
+	exportRoot.balls.ball_23A.alpha=0
+	exportRoot.balls.ball_24A.alpha=0
+	exportRoot.balls.ball_25A.alpha=0
+	exportRoot.balls.ball_26A.alpha=0
+    
+  
+//	exportRoot.balls.ball_27A.alpha=0
+//	exportRoot.balls.ball_28A.alpha=0
+//	exportRoot.balls.ball_29A.alpha=0
+//	exportRoot.balls.ball_30A.alpha=0
+//	exportRoot.balls.ball_31A.alpha=0
+//	exportRoot.balls.ball_32A.alpha=0
+    
+	exportRoot.balls.ball_33A.alpha=0
+	exportRoot.balls.ball_34A.alpha=0
+	exportRoot.balls.ball_35A.alpha=0
+	exportRoot.balls.ball_36A.alpha=0
+	exportRoot.balls.ball_37A.alpha=0
+	exportRoot.balls.ball_38A.alpha=0
+	exportRoot.balls.ball_39A.alpha=0
+    
+    
+//	exportRoot.balls.ball_40A.alpha=0
+//	exportRoot.balls.ball_41A.alpha=0
+//	exportRoot.balls.ball_42A.alpha=0
+//	exportRoot.balls.ball_43A.alpha=0
+//	exportRoot.balls.ball_44A.alpha=0
+//	exportRoot.balls.ball_45A.alpha=0
+    
+    
+	exportRoot.balls.ball_46A.alpha=0
+	exportRoot.balls.ball_47A.alpha=0
+	exportRoot.balls.ball_48A.alpha=0
+	exportRoot.balls.ball_49A.alpha=0
+	exportRoot.balls.ball_50A.alpha=0
+	exportRoot.balls.ball_51A.alpha=0
+	exportRoot.balls.ball_52A.alpha=0
+    
+	exportRoot.balls.ball_53A.alpha=0
+//	exportRoot.balls.ball_54A.alpha=0
+//	exportRoot.balls.ball_55A.alpha=0
+//	exportRoot.balls.ball_56A.alpha=0
+//	exportRoot.balls.ball_57A.alpha=0
+//	exportRoot.balls.ball_58A.alpha=0
+    
+	exportRoot.balls.ball_59A.alpha=0
+	exportRoot.balls.ball_60A.alpha=0
+	exportRoot.balls.ball_61A.alpha=0
+	exportRoot.balls.ball_62A.alpha=0
+	exportRoot.balls.ball_63A.alpha=0
+	exportRoot.balls.ball_64A.alpha=0
+	exportRoot.balls.ball_65A.alpha=0
+    
+//	exportRoot.balls.ball_66A.alpha=0
+//	exportRoot.balls.ball_67A.alpha=0
+//	exportRoot.balls.ball_68A.alpha=0
+//	exportRoot.balls.ball_69A.alpha=0
+//	exportRoot.balls.ball_70A.alpha=0
+//	exportRoot.balls.ball_71A.alpha=0
+	
+    exportRoot.balls.ball_72A.alpha=0
+	exportRoot.balls.ball_73A.alpha=0
+	exportRoot.balls.ball_74A.alpha=0
+	exportRoot.balls.ball_75A.alpha=0
+	exportRoot.balls.ball_76A.alpha=0
+	exportRoot.balls.ball_77A.alpha=0
+	exportRoot.balls.ball_78A.alpha=1
+    
+    
+    
+    
+    
+//	exportRoot.balls.ball_1B.alpha=0
+//	exportRoot.balls.ball_2B.alpha=0
+//	exportRoot.balls.ball_3B.alpha=0
+//	exportRoot.balls.ball_4B.alpha=0
+//	exportRoot.balls.ball_5B.alpha=0
+ exportRoot.balls.ball_6B.alpha=0
+    
+	exportRoot.balls.ball_7B.alpha=0
+	exportRoot.balls.ball_8B.alpha=0
+	exportRoot.balls.ball_9B.alpha=0
+	exportRoot.balls.ball_10B.alpha=0
+	exportRoot.balls.ball_11B.alpha=0
+	exportRoot.balls.ball_12B.alpha=0
+	exportRoot.balls.ball_13B.alpha=0
+    
+//	exportRoot.balls.ball_14B.alpha=0
+//	exportRoot.balls.ball_15B.alpha=0
+//	exportRoot.balls.ball_16B.alpha=0
+//	exportRoot.balls.ball_17B.alpha=0
+//	exportRoot.balls.ball_18B.alpha=0
+//	exportRoot.balls.ball_19B.alpha=0
+    
+    
+	exportRoot.balls.ball_20B.alpha=0
+    exportRoot.balls.ball_21B.alpha=0
+	exportRoot.balls.ball_22B.alpha=0
+	exportRoot.balls.ball_23B.alpha=0
+	exportRoot.balls.ball_24B.alpha=0
+	exportRoot.balls.ball_25B.alpha=0
+	exportRoot.balls.ball_26B.alpha=0
+    
+  
+//	exportRoot.balls.ball_27B.alpha=0
+//	exportRoot.balls.ball_28B.alpha=0
+//	exportRoot.balls.ball_29B.alpha=0
+//	exportRoot.balls.ball_30B.alpha=0
+//	exportRoot.balls.ball_31B.alpha=0
+//	exportRoot.balls.ball_32B.alpha=0
+    
+	exportRoot.balls.ball_33B.alpha=0
+	exportRoot.balls.ball_34B.alpha=0
+	exportRoot.balls.ball_35B.alpha=0
+	exportRoot.balls.ball_36B.alpha=0
+	exportRoot.balls.ball_37B.alpha=0
+	exportRoot.balls.ball_38B.alpha=0
+	exportRoot.balls.ball_39B.alpha=0
+    
+    
+//	exportRoot.balls.ball_40B.alpha=0
+//	exportRoot.balls.ball_41B.alpha=0
+//	exportRoot.balls.ball_42B.alpha=0
+//	exportRoot.balls.ball_43B.alpha=0
+//	exportRoot.balls.ball_44B.alpha=0
+//	exportRoot.balls.ball_45B.alpha=0
+    
+    
+	exportRoot.balls.ball_46B.alpha=0
+	exportRoot.balls.ball_47B.alpha=0
+	exportRoot.balls.ball_48B.alpha=0
+	exportRoot.balls.ball_49B.alpha=0
+	exportRoot.balls.ball_50B.alpha=0
+	exportRoot.balls.ball_51B.alpha=0
+	exportRoot.balls.ball_52B.alpha=0
+    
+	exportRoot.balls.ball_53B.alpha=0
+//	exportRoot.balls.ball_54B.alpha=0
+//	exportRoot.balls.ball_55B.alpha=0
+//	exportRoot.balls.ball_56B.alpha=0
+//	exportRoot.balls.ball_57B.alpha=0
+//	exportRoot.balls.ball_58B.alpha=0
+    
+	exportRoot.balls.ball_59B.alpha=0
+	exportRoot.balls.ball_60B.alpha=0
+	exportRoot.balls.ball_61B.alpha=0
+	exportRoot.balls.ball_62B.alpha=0
+	exportRoot.balls.ball_63B.alpha=0
+	exportRoot.balls.ball_64B.alpha=0
+	exportRoot.balls.ball_65B.alpha=0
+    
+//	exportRoot.balls.ball_66B.alpha=0
+//	exportRoot.balls.ball_67B.alpha=0
+//	exportRoot.balls.ball_68B.alpha=0
+//	exportRoot.balls.ball_69B.alpha=0
+//	exportRoot.balls.ball_70B.alpha=0
+//	exportRoot.balls.ball_71B.alpha=0
+	
+    exportRoot.balls.ball_72B.alpha=0
+	exportRoot.balls.ball_73B.alpha=0
+	exportRoot.balls.ball_74B.alpha=0
+	exportRoot.balls.ball_75B.alpha=0
+	exportRoot.balls.ball_76B.alpha=0
+	exportRoot.balls.ball_77B.alpha=0
+	exportRoot.balls.ball_78B.alpha=0
+
+
+
+
+//	exportRoot.balls.ball_1C.alpha=0
+//	exportRoot.balls.ball_2C.alpha=0
+//	exportRoot.balls.ball_3C.alpha=0
+//	exportRoot.balls.ball_4C.alpha=0
+//	exportRoot.balls.ball_5C.alpha=0
+ exportRoot.balls.ball_6C.alpha=0
+    
+	exportRoot.balls.ball_7C.alpha=0
+	exportRoot.balls.ball_8C.alpha=0
+	exportRoot.balls.ball_9C.alpha=0
+	exportRoot.balls.ball_10C.alpha=0
+	exportRoot.balls.ball_11C.alpha=0
+	exportRoot.balls.ball_12C.alpha=0
+	exportRoot.balls.ball_13C.alpha=0
+    
+//	exportRoot.balls.ball_14C.alpha=0
+//	exportRoot.balls.ball_15C.alpha=0
+//	exportRoot.balls.ball_16C.alpha=0
+//	exportRoot.balls.ball_17C.alpha=0
+//	exportRoot.balls.ball_18C.alpha=0
+//	exportRoot.balls.ball_19C.alpha=0
+    
+    
+	exportRoot.balls.ball_20C.alpha=0
+    exportRoot.balls.ball_21C.alpha=0
+	exportRoot.balls.ball_22C.alpha=0
+	exportRoot.balls.ball_23C.alpha=0
+	exportRoot.balls.ball_24C.alpha=0
+	exportRoot.balls.ball_25C.alpha=0
+	exportRoot.balls.ball_26C.alpha=0
+    
+  
+//	exportRoot.balls.ball_27C.alpha=0
+//	exportRoot.balls.ball_28C.alpha=0
+//	exportRoot.balls.ball_29C.alpha=0
+//	exportRoot.balls.ball_30C.alpha=0
+//	exportRoot.balls.ball_31C.alpha=0
+//	exportRoot.balls.ball_32C.alpha=0
+    
+	exportRoot.balls.ball_33C.alpha=0
+	exportRoot.balls.ball_34C.alpha=0
+	exportRoot.balls.ball_35C.alpha=0
+	exportRoot.balls.ball_36C.alpha=0
+	exportRoot.balls.ball_37C.alpha=0
+	exportRoot.balls.ball_38C.alpha=0
+	exportRoot.balls.ball_39C.alpha=0
+    
+    
+//	exportRoot.balls.ball_40C.alpha=0
+//	exportRoot.balls.ball_41C.alpha=0
+//	exportRoot.balls.ball_42C.alpha=0
+//	exportRoot.balls.ball_43C.alpha=0
+//	exportRoot.balls.ball_44C.alpha=0
+//	exportRoot.balls.ball_45C.alpha=0
+    
+    
+	exportRoot.balls.ball_46C.alpha=0
+	exportRoot.balls.ball_47C.alpha=0
+	exportRoot.balls.ball_48C.alpha=0
+	exportRoot.balls.ball_49C.alpha=0
+	exportRoot.balls.ball_50C.alpha=0
+	exportRoot.balls.ball_51C.alpha=0
+	exportRoot.balls.ball_52C.alpha=0
+    
+	exportRoot.balls.ball_53C.alpha=0
+//	exportRoot.balls.ball_54C.alpha=0
+//	exportRoot.balls.ball_55C.alpha=0
+//	exportRoot.balls.ball_56C.alpha=0
+//	exportRoot.balls.ball_57C.alpha=0
+//	exportRoot.balls.ball_58C.alpha=0
+    
+	exportRoot.balls.ball_59C.alpha=0
+	exportRoot.balls.ball_60C.alpha=0
+	exportRoot.balls.ball_61C.alpha=0
+	exportRoot.balls.ball_62C.alpha=0
+	exportRoot.balls.ball_63C.alpha=0
+	exportRoot.balls.ball_64C.alpha=0
+	exportRoot.balls.ball_65C.alpha=0
+    
+//	exportRoot.balls.ball_66C.alpha=0
+//	exportRoot.balls.ball_67C.alpha=0
+//	exportRoot.balls.ball_68C.alpha=0
+//	exportRoot.balls.ball_69C.alpha=0
+//	exportRoot.balls.ball_70C.alpha=0
+//	exportRoot.balls.ball_71C.alpha=0
+	
+    exportRoot.balls.ball_72C.alpha=0
+	exportRoot.balls.ball_73C.alpha=0
+	exportRoot.balls.ball_74C.alpha=0
+	exportRoot.balls.ball_75C.alpha=0
+	exportRoot.balls.ball_76C.alpha=0
+	exportRoot.balls.ball_77C.alpha=0
+	exportRoot.balls.ball_78C.alpha=0
+
+
+
+//	exportRoot.balls.ball_1A.stop()
+//	exportRoot.balls.ball_2A.stop()
+//	exportRoot.balls.ball_3A.stop()
+//	exportRoot.balls.ball_4A.stop()
+//	exportRoot.balls.ball_5A.stop()
+	exportRoot.balls.ball_6A.stop()
+    
+	exportRoot.balls.ball_7A.stop()
+	exportRoot.balls.ball_8A.stop()
+	exportRoot.balls.ball_9A.stop()
+	exportRoot.balls.ball_10A.stop()
+	exportRoot.balls.ball_11A.stop()
+	exportRoot.balls.ball_12A.stop()
+	exportRoot.balls.ball_13A.stop()
+    
+//	exportRoot.balls.ball_14A.stop()
+//	exportRoot.balls.ball_15A.stop()
+//	exportRoot.balls.ball_16A.stop()
+//	exportRoot.balls.ball_17A.stop()
+//	exportRoot.balls.ball_18A.stop()
+//	exportRoot.balls.ball_19A.stop()
+    
+    
+	exportRoot.balls.ball_20A.stop()
+    exportRoot.balls.ball_21A.stop()
+	exportRoot.balls.ball_22A.stop()
+	exportRoot.balls.ball_23A.stop()
+	exportRoot.balls.ball_24A.stop()
+	exportRoot.balls.ball_25A.stop()
+	exportRoot.balls.ball_26A.stop()
+    
+  
+//	exportRoot.balls.ball_27A.stop()
+//	exportRoot.balls.ball_28A.stop()
+//	exportRoot.balls.ball_29A.stop()
+//	exportRoot.balls.ball_30A.stop()
+//	exportRoot.balls.ball_31A.stop()
+//	exportRoot.balls.ball_32A.stop()
+    
+	exportRoot.balls.ball_33A.stop()
+	exportRoot.balls.ball_34A.stop()
+	exportRoot.balls.ball_35A.stop()
+	exportRoot.balls.ball_36A.stop()
+	exportRoot.balls.ball_37A.stop()
+	exportRoot.balls.ball_38A.stop()
+	exportRoot.balls.ball_39A.stop()
+    
+    
+//	exportRoot.balls.ball_40A.stop()
+//	exportRoot.balls.ball_41A.stop()
+//	exportRoot.balls.ball_42A.stop()
+//	exportRoot.balls.ball_43A.stop()
+//	exportRoot.balls.ball_44A.stop()
+//	exportRoot.balls.ball_45A.stop()
+    
+    
+	exportRoot.balls.ball_46A.stop()
+	exportRoot.balls.ball_47A.stop()
+	exportRoot.balls.ball_48A.stop()
+	exportRoot.balls.ball_49A.stop()
+	exportRoot.balls.ball_50A.stop()
+	exportRoot.balls.ball_51A.stop()
+	exportRoot.balls.ball_52A.stop()
+    
+	exportRoot.balls.ball_53A.stop()
+//	exportRoot.balls.ball_54A.stop()
+//	exportRoot.balls.ball_55A.stop()
+//	exportRoot.balls.ball_56A.stop()
+//	exportRoot.balls.ball_57A.stop()
+//	exportRoot.balls.ball_58A.stop()
+    
+	exportRoot.balls.ball_59A.stop()
+	exportRoot.balls.ball_60A.stop()
+	exportRoot.balls.ball_61A.stop()
+	exportRoot.balls.ball_62A.stop()
+	exportRoot.balls.ball_63A.stop()
+	exportRoot.balls.ball_64A.stop()
+	exportRoot.balls.ball_65A.stop()
+    
+//	exportRoot.balls.ball_66A.stop()
+//	exportRoot.balls.ball_67A.stop()
+//	exportRoot.balls.ball_68A.stop()
+//	exportRoot.balls.ball_69A.stop()
+//	exportRoot.balls.ball_70A.stop()
+//	exportRoot.balls.ball_71A.stop()
+	
+    exportRoot.balls.ball_72A.stop()
+	exportRoot.balls.ball_73A.stop()
+	exportRoot.balls.ball_74A.stop()
+	exportRoot.balls.ball_75A.stop()
+	exportRoot.balls.ball_76A.stop()
+	exportRoot.balls.ball_77A.stop()
+	exportRoot.balls.ball_78A.stop()
+
+
+
+
+//	exportRoot.balls.ball_1B.stop()
+//	exportRoot.balls.ball_2B.stop()
+//	exportRoot.balls.ball_3B.stop()
+//	exportRoot.balls.ball_4B.stop()
+//	exportRoot.balls.ball_5B.stop()
+ exportRoot.balls.ball_6B.stop()
+    
+	exportRoot.balls.ball_7B.stop()
+	exportRoot.balls.ball_8B.stop()
+	exportRoot.balls.ball_9B.stop()
+	exportRoot.balls.ball_10B.stop()
+	exportRoot.balls.ball_11B.stop()
+	exportRoot.balls.ball_12B.stop()
+	exportRoot.balls.ball_13B.stop()
+    
+//	exportRoot.balls.ball_14B.stop()
+//	exportRoot.balls.ball_15B.stop()
+//	exportRoot.balls.ball_16B.stop()
+//	exportRoot.balls.ball_17B.stop()
+//	exportRoot.balls.ball_18B.stop()
+//	exportRoot.balls.ball_19B.stop()
+    
+    
+	exportRoot.balls.ball_20B.stop()
+    exportRoot.balls.ball_21B.stop()
+	exportRoot.balls.ball_22B.stop()
+	exportRoot.balls.ball_23B.stop()
+	exportRoot.balls.ball_24B.stop()
+	exportRoot.balls.ball_25B.stop()
+	exportRoot.balls.ball_26B.stop()
+    
+  
+//	exportRoot.balls.ball_27B.stop()
+//	exportRoot.balls.ball_28B.stop()
+//	exportRoot.balls.ball_29B.stop()
+//	exportRoot.balls.ball_30B.stop()
+//	exportRoot.balls.ball_31B.stop()
+//	exportRoot.balls.ball_32B.stop()
+    
+	exportRoot.balls.ball_33B.stop()
+	exportRoot.balls.ball_34B.stop()
+	exportRoot.balls.ball_35B.stop()
+	exportRoot.balls.ball_36B.stop()
+	exportRoot.balls.ball_37B.stop()
+	exportRoot.balls.ball_38B.stop()
+	exportRoot.balls.ball_39B.stop()
+    
+    
+//	exportRoot.balls.ball_40B.stop()
+//	exportRoot.balls.ball_41B.stop()
+//	exportRoot.balls.ball_42B.stop()
+//	exportRoot.balls.ball_43B.stop()
+//	exportRoot.balls.ball_44B.stop()
+//	exportRoot.balls.ball_45B.stop()
+    
+    
+	exportRoot.balls.ball_46B.stop()
+	exportRoot.balls.ball_47B.stop()
+	exportRoot.balls.ball_48B.stop()
+	exportRoot.balls.ball_49B.stop()
+	exportRoot.balls.ball_50B.stop()
+	exportRoot.balls.ball_51B.stop()
+	exportRoot.balls.ball_52B.stop()
+    
+	exportRoot.balls.ball_53B.stop()
+//	exportRoot.balls.ball_54B.stop()
+//	exportRoot.balls.ball_55B.stop()
+//	exportRoot.balls.ball_56B.stop()
+//	exportRoot.balls.ball_57B.stop()
+//	exportRoot.balls.ball_58B.stop()
+    
+	exportRoot.balls.ball_59B.stop()
+	exportRoot.balls.ball_60B.stop()
+	exportRoot.balls.ball_61B.stop()
+	exportRoot.balls.ball_62B.stop()
+	exportRoot.balls.ball_63B.stop()
+	exportRoot.balls.ball_64B.stop()
+	exportRoot.balls.ball_65B.stop()
+    
+//	exportRoot.balls.ball_66B.stop()
+//	exportRoot.balls.ball_67B.stop()
+//	exportRoot.balls.ball_68B.stop()
+//	exportRoot.balls.ball_69B.stop()
+//	exportRoot.balls.ball_70B.stop()
+//	exportRoot.balls.ball_71B.stop()
+	
+    exportRoot.balls.ball_72B.stop()
+	exportRoot.balls.ball_73B.stop()
+	exportRoot.balls.ball_74B.stop()
+	exportRoot.balls.ball_75B.stop()
+	exportRoot.balls.ball_76B.stop()
+	exportRoot.balls.ball_77B.stop()
+	exportRoot.balls.ball_78B.stop()
+
+
+//	exportRoot.balls.ball_1C.stop()
+//	exportRoot.balls.ball_2C.stop()
+//	exportRoot.balls.ball_3C.stop()
+//	exportRoot.balls.ball_4C.stop()
+//	exportRoot.balls.ball_5C.stop()
+ exportRoot.balls.ball_6C.stop()
+    
+	exportRoot.balls.ball_7C.stop()
+	exportRoot.balls.ball_8C.stop()
+	exportRoot.balls.ball_9C.stop()
+	exportRoot.balls.ball_10C.stop()
+	exportRoot.balls.ball_11C.stop()
+	exportRoot.balls.ball_12C.stop()
+	exportRoot.balls.ball_13C.stop()
+    
+//	exportRoot.balls.ball_14C.stop()
+//	exportRoot.balls.ball_15C.stop()
+//	exportRoot.balls.ball_16C.stop()
+//	exportRoot.balls.ball_17C.stop()
+//	exportRoot.balls.ball_18C.stop()
+//	exportRoot.balls.ball_19C.stop()
+    
+    
+	exportRoot.balls.ball_20C.stop()
+    exportRoot.balls.ball_21C.stop()
+	exportRoot.balls.ball_22C.stop()
+	exportRoot.balls.ball_23C.stop()
+	exportRoot.balls.ball_24C.stop()
+	exportRoot.balls.ball_25C.stop()
+	exportRoot.balls.ball_26C.stop()
+    
+  
+//	exportRoot.balls.ball_27C.stop()
+//	exportRoot.balls.ball_28C.stop()
+//	exportRoot.balls.ball_29C.stop()
+//	exportRoot.balls.ball_30C.stop()
+//	exportRoot.balls.ball_31C.stop()
+//	exportRoot.balls.ball_32C.stop()
+    
+	exportRoot.balls.ball_33C.stop()
+	exportRoot.balls.ball_34C.stop()
+	exportRoot.balls.ball_35C.stop()
+	exportRoot.balls.ball_36C.stop()
+	exportRoot.balls.ball_37C.stop()
+	exportRoot.balls.ball_38C.stop()
+	exportRoot.balls.ball_39C.stop()
+    
+    
+//	exportRoot.balls.ball_40C.stop()
+//	exportRoot.balls.ball_41C.stop()
+//	exportRoot.balls.ball_42C.stop()
+//	exportRoot.balls.ball_43C.stop()
+//	exportRoot.balls.ball_44C.stop()
+//	exportRoot.balls.ball_45C.stop()
+    
+    
+	exportRoot.balls.ball_46C.stop()
+	exportRoot.balls.ball_47C.stop()
+	exportRoot.balls.ball_48C.stop()
+	exportRoot.balls.ball_49C.stop()
+	exportRoot.balls.ball_50C.stop()
+	exportRoot.balls.ball_51C.stop()
+	exportRoot.balls.ball_52C.stop()
+    
+	exportRoot.balls.ball_53C.stop()
+//	exportRoot.balls.ball_54C.stop()
+//	exportRoot.balls.ball_55C.stop()
+//	exportRoot.balls.ball_56C.stop()
+//	exportRoot.balls.ball_57C.stop()
+//	exportRoot.balls.ball_58C.stop()
+    
+	exportRoot.balls.ball_59C.stop()
+	exportRoot.balls.ball_60C.stop()
+	exportRoot.balls.ball_61C.stop()
+	exportRoot.balls.ball_62C.stop()
+	exportRoot.balls.ball_63C.stop()
+	exportRoot.balls.ball_64C.stop()
+	exportRoot.balls.ball_65C.stop()
+    
+//	exportRoot.balls.ball_66C.stop()
+//	exportRoot.balls.ball_67C.stop()
+//	exportRoot.balls.ball_68C.stop()
+//	exportRoot.balls.ball_69C.stop()
+//	exportRoot.balls.ball_70C.stop()
+//	exportRoot.balls.ball_71C.stop()
+	
+    exportRoot.balls.ball_72C.stop()
+	exportRoot.balls.ball_73C.stop()
+	exportRoot.balls.ball_74C.stop()
+	exportRoot.balls.ball_75C.stop()
+	exportRoot.balls.ball_76C.stop()
+	exportRoot.balls.ball_77C.stop()
+	exportRoot.balls.ball_78C.stop()
+
+		}
+
+	
+
+</script>
+</head>
+
+<body onload="init();" style="background-color:#D4D4D4">
+	<!--<canvas id="canvas" width="1136" height="640" style="background-color:#ffffff"></canvas>
+-->    <canvas id="canvas" width="600" height="340" style="background-color:#ffffff"></canvas>
+<div id="myDiv"></div>
+    
+    <div id="console">
+       <div id="giro"></div>
+     <div id="giro1"></div>
+     <div id="giro2"></div>
+     <div id="giro3"></div>
+       <div id="giro4"></div>
+        <div id="giro5"></div>
+        <div id="kick"></div>
+     
+    <div id="finger2Sw">fdsfdsfd</div> 
+     
+    
+    
+   <div id="datos_final"></div> 
+<div id="ydatos">fdsfds</div>
+
+<div id="xdatos"> </div>
+
+<div id="datos_finalXY"> </div>
+
+    
+       <span class='title'></span>
+			
+			
+			
+			<pre class="prettyprint lang-js" data-src="code_1"></pre>
+			<span class='navigation'></span>
+			
+			<div id="test" class="box">Swipe me</div>
+			
+			<span class='navigation'></span>
+            
+            </div>
+            
+            
+            <script type="text/javascript">
+			$('#console').hide()
+            
+            var CANVAS_WIDTH = window.innerWidth;
+       var CANVAS_HEIGHT = window.innerHeight;
+
+       var canvas = document.getElementById('canvas');
+	
+       canvas.width = CANVAS_WIDTH;
+       canvas.height = CANVAS_HEIGHT;
+            </script>
+            
+    
+</body>
+</html>
